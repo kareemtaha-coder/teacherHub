@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { AppData, Student, Group, StudentGroup, Session, AttendanceRecord, Assessment, Grade, PaymentRecord } from '../types';
+import { AppData, Student, Group, StudentGroup, Session, AttendanceRecord, SessionReport, Assessment, Grade, PaymentRecord } from '../types';
 import { loadData, saveData } from '../utils/storage';
 import { generateId } from '../utils/generators';
 
@@ -22,6 +22,9 @@ type AppAction =
   | { type: 'DELETE_SESSION'; payload: string }
   | { type: 'ADD_ATTENDANCE'; payload: Omit<AttendanceRecord, 'id'> }
   | { type: 'UPDATE_ATTENDANCE'; payload: AttendanceRecord }
+  | { type: 'ADD_SESSION_REPORT'; payload: Omit<SessionReport, 'id' | 'createdAt' | 'updatedAt'> }
+  | { type: 'UPDATE_SESSION_REPORT'; payload: SessionReport }
+  | { type: 'DELETE_SESSION_REPORT'; payload: string }
   | { type: 'ADD_ASSESSMENT'; payload: Omit<Assessment, 'id' | 'createdAt'> }
   | { type: 'UPDATE_ASSESSMENT'; payload: Assessment }
   | { type: 'DELETE_ASSESSMENT'; payload: string }
@@ -35,7 +38,8 @@ type AppAction =
 
 const initialState: AppState = {
   ...loadData(),
-  currentView: 'dashboard'
+  currentView: 'dashboard',
+  sessionReports: []
 };
 
 const AppContext = createContext<{
@@ -151,7 +155,8 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
       newState = {
         ...state,
         sessions: state.sessions.filter(s => s.id !== action.payload),
-        attendanceRecords: state.attendanceRecords.filter(ar => ar.sessionId !== action.payload)
+        attendanceRecords: state.attendanceRecords.filter(ar => ar.sessionId !== action.payload),
+        sessionReports: state.sessionReports.filter(sr => sr.sessionId !== action.payload)
       };
       break;
 
@@ -183,6 +188,32 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
       newState = {
         ...state,
         attendanceRecords: state.attendanceRecords.map(ar => ar.id === action.payload.id ? action.payload : ar)
+      };
+      break;
+
+    case 'ADD_SESSION_REPORT':
+      newState = {
+        ...state,
+        sessionReports: [...state.sessionReports, {
+          ...action.payload,
+          id: generateId(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }]
+      };
+      break;
+
+    case 'UPDATE_SESSION_REPORT':
+      newState = {
+        ...state,
+        sessionReports: state.sessionReports.map(sr => sr.id === action.payload.id ? action.payload : sr)
+      };
+      break;
+
+    case 'DELETE_SESSION_REPORT':
+      newState = {
+        ...state,
+        sessionReports: state.sessionReports.filter(sr => sr.id !== action.payload)
       };
       break;
 

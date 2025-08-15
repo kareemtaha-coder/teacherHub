@@ -34,6 +34,18 @@ export interface AttendanceRecord {
   status: 'present' | 'absent' | 'excused';
 }
 
+export interface SessionReport {
+  id: string;
+  sessionId: string;
+  studentId: string;
+  performance: 'excellent' | 'good' | 'average' | 'needs_improvement' | 'poor';
+  strengths: string; // What went well
+  improvements: string; // What needs improvement
+  notes: string; // Additional observations
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Assessment {
   id: string;
   groupId: string;
@@ -70,6 +82,7 @@ export interface AppData {
   studentGroups: StudentGroup[];
   sessions: Session[];
   attendanceRecords: AttendanceRecord[];
+  sessionReports: SessionReport[];
   assessments: Assessment[];
   grades: Grade[];
   paymentRecords: PaymentRecord[];

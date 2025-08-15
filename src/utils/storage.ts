@@ -6,6 +6,7 @@ const defaultData: AppData = {
   studentGroups: [],
   sessions: [],
   attendanceRecords: [],
+  sessionReports: [],
   assessments: [],
   grades: [],
   paymentRecords: []
@@ -24,6 +25,7 @@ export const loadData = (): AppData => {
           studentGroups: Array.isArray(parsedData.studentGroups) ? parsedData.studentGroups : [],
           sessions: Array.isArray(parsedData.sessions) ? parsedData.sessions : [],
           attendanceRecords: Array.isArray(parsedData.attendanceRecords) ? parsedData.attendanceRecords : [],
+          sessionReports: Array.isArray(parsedData.sessionReports) ? parsedData.sessionReports : [],
           assessments: Array.isArray(parsedData.assessments) ? parsedData.assessments : [],
           grades: Array.isArray(parsedData.grades) ? parsedData.grades : [],
           paymentRecords: Array.isArray(parsedData.paymentRecords) ? parsedData.paymentRecords : []
@@ -72,6 +74,7 @@ export const importData = (jsonData: string): boolean => {
         studentGroups: Array.isArray(data.studentGroups) ? data.studentGroups : [],
         sessions: Array.isArray(data.sessions) ? data.sessions : [],
         attendanceRecords: Array.isArray(data.attendanceRecords) ? data.attendanceRecords : [],
+        sessionReports: Array.isArray(data.sessionReports) ? data.sessionReports : [],
         assessments: Array.isArray(data.assessments) ? data.assessments : [],
         grades: Array.isArray(data.grades) ? data.grades : [],
         paymentRecords: Array.isArray(data.paymentRecords) ? data.paymentRecords : []
