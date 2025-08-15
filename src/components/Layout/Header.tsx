@@ -187,22 +187,37 @@ const Header: React.FC = () => {
             {/* Language Switcher - Compact */}
             <LanguageSwitcher />
 
-            {/* Navigation - Compact */}
-            <nav className="flex items-center space-x-1 ml-3">
-              {navItems.map(item => (
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-1">
+              {navItems.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => handleNavigation(item.id)}
-                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     state.currentView === item.id
-                      ? 'bg-blue-100 text-blue-700 shadow-sm' 
+                      ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
                   }`}
                 >
-                  <div className="flex items-center space-x-2">
-                    <item.icon className="h-4 w-4" />
-                    <span>{item.label}</span>
-                  </div>
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+
+            {/* Mobile Navigation */}
+            <nav className="lg:hidden flex items-center space-x-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavigation(item.id)}
+                  className={`p-2 text-sm font-medium rounded-lg transition-colors ${
+                    state.currentView === item.id
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                  title={item.label}
+                >
+                  <item.icon className="h-5 w-5" />
                 </button>
               ))}
             </nav>
